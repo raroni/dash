@@ -9,7 +9,7 @@ class CollisionDetection extends EntityObserverProcessor {
     return entity.has(CircleCollider);
   }
   
-  void onInitialize() {
+  void onEntityObserverProcessorInitialized() {
     eventSubscriptionManager.add(Update, receiveUpdate);
   }
   

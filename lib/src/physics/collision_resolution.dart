@@ -1,13 +1,11 @@
 part of dash;
 
 class CollisionResolution extends Processor {
-  Async.StreamSubscription subscription1;
-  Async.StreamSubscription subscription2;
   List<Collision> pendingCollisions = new List<Collision>();
   
-  void initialize() {
-    subscription1 = eventManager.getStream(Collision).listen(receiveCollision);
-    subscription2 = eventManager.getStream(Update).listen(receiveUpdate);
+  void onProcessorInitialized() {
+    eventSubscriptionManager.add(Collision, receiveCollision);
+    eventSubscriptionManager.add(Update, receiveUpdate);
   }
   
   void receiveCollision(Collision collision) {
@@ -25,10 +23,5 @@ class CollisionResolution extends Processor {
       position2.vector.subtract(halfSeparation);
     }
     pendingCollisions.clear();
-  }
-  
-  void terminate() {
-    subscription1.cancel();
-    subscription2.cancel();
   }
 }

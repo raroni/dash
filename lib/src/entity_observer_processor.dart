@@ -1,14 +1,12 @@
 part of dash;
 
 abstract class EntityObserverProcessor extends Processor {
-  EventSubscriptionManager eventSubscriptionManager;
   List<Entity> entities = new List<Entity>();
   
-  void initialize() {
-    eventSubscriptionManager = new EventSubscriptionManager(eventManager);
+  void onProcessorInitialized() {
     eventSubscriptionManager.add(EntityAddition, receiveEntityAddition);
     eventSubscriptionManager.add(EntityDestruction, receiveEntityDestruction);
-    onInitialize();
+    onEntityObserverProcessorInitialized();
   }
   
   void receiveEntityAddition(EntityAddition addition) {
@@ -29,9 +27,5 @@ abstract class EntityObserverProcessor extends Processor {
   bool match(Entity entity);
   void onAddition(Entity entity);
   void onRemoval(Entity entity);
-  void onInitialize() { }
-  
-  void terminate() {
-    eventSubscriptionManager.terminate();
-  }
+  void onEntityObserverProcessorInitialized() { }
 }

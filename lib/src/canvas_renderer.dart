@@ -13,7 +13,7 @@ class CanvasRenderer extends EntityObserverProcessor {
     context = canvas.getContext('2d');
   }
   
-  void onInitialize() {
+  void onEntityObserverProcessorInitialized() {
     eventSubscriptionManager.add(Update, receiveUpdate);
   }
   
