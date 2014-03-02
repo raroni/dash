@@ -40,7 +40,6 @@ class CollisionDetection extends EntityObserverProcessor {
     var collider2 = entity2.getComponent(CircleCollider);
     var overlap = collider1.radius+collider2.radius-distance;
     if(overlap > 0) {
-      print("COL!");
       var separation = new Vector2.normalized(centerDif)*overlap;
       eventManager.emit(new Collision(entity1, entity2, separation));
     }
