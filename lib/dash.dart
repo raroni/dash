@@ -35,3 +35,4 @@ part 'src/math/vector2.dart';
 part 'src/pair_cache.dart';
 part 'src/physics/collision.dart';
 part 'src/physics/collision_resolution.dart';
+part 'src/simulation/entity_processor.dart';
