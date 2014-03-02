@@ -54,11 +54,20 @@ class Vector2 extends Vector {
     set(this-vector);
   }
   
+  void multiply(num factor) {
+    set(this*factor);
+  }
+  
   num get length {
     return Math.sqrt(
         Math.pow(this[0], 2) +
         Math.pow(this[1], 2)
     );
+  }
+  
+  void reset() {
+    this[0] = 0;
+    this[1] = 0;
   }
   
   void normalize() {
@@ -69,4 +78,6 @@ class Vector2 extends Vector {
     this[0] = vector[0];
     this[1] = vector[1];
   }
+  
+  bool get isZero => this[0] == 0 && this[1] == 0;
 }
