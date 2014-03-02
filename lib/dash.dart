@@ -1,0 +1,37 @@
+library dash;
+
+import 'dart:html' as HTML;
+import 'dart:async' as Async;
+import 'dart:mirrors' as Mirrors;
+import 'dart:math' as Math;
+import 'dart:collection' as Collection;
+
+part 'src/entity.dart';
+part 'src/simulation.dart';
+part 'src/game.dart';
+part 'src/database.dart';
+part 'src/component.dart';
+part 'src/event_manager.dart';
+part 'src/event.dart';
+part 'src/entity_addition.dart';
+part 'src/canvas_renderer.dart';
+part 'src/entity_destruction.dart';
+part 'src/processor.dart';
+part 'src/entity_observer_processor.dart';
+part 'src/event_subscription_manager.dart';
+part 'src/update.dart';
+part 'src/circle_rendering.dart';
+part 'src/class_id_map.dart';
+part 'src/position.dart';
+part 'src/color.dart';
+part 'src/math/vector4.dart';
+part 'src/keyboard.dart';
+part 'src/helpers/html_helper.dart';
+part 'src/physics/circle_collider.dart';
+part 'src/physics/collision_detection.dart';
+part 'src/velocity.dart';
+part 'src/math/vector.dart';
+part 'src/math/vector2.dart';
+part 'src/pair_cache.dart';
+part 'src/physics/collision.dart';
+part 'src/physics/collision_resolution.dart';
