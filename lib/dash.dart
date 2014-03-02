@@ -36,3 +36,4 @@ part 'src/pair_cache.dart';
 part 'src/physics/collision.dart';
 part 'src/physics/collision_resolution.dart';
 part 'src/simulation/entity_processor.dart';
+part 'src/physics/movement.dart';
