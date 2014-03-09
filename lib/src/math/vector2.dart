@@ -19,17 +19,19 @@ class Vector2 extends Vector {
   }
   
   operator +(Vector2 other) {
-    return new Vector2(
-        this[0] + other[0],
-        this[1] + other[1]
-    );
+    var clone = createClone();
+    clone.add(other);
+    return clone;
   }
   
   operator -(Vector2 other) {
-    return new Vector2(
-        this[0] - other[0],
-        this[1] - other[1]
-    );
+    var clone = createClone();
+    clone.subtract(other);
+    return clone;
+  }
+  
+  num getDotProduct(Vector2 vector) {
+      return components[0]*vector[0] + components[1]*vector[1];
   }
   
   operator*(num factor) {
@@ -47,23 +49,28 @@ class Vector2 extends Vector {
   }
   
   void add(Vector2 vector) {
-    set(this+vector);     
+    this[0] += vector[0];
+    this[1] += vector[1];
   }
   
   void subtract(Vector2 vector) {
-    set(this-vector);
+    this[0] -= vector[0];
+    this[1] -= vector[1];
+  }
+
+  Vector2 createClone() {
+    var clone = new Vector2();
+    clone.set(this);
+    return clone;
   }
   
   void multiply(num factor) {
     set(this*factor);
   }
   
-  num get length {
-    return Math.sqrt(
-        Math.pow(this[0], 2) +
-        Math.pow(this[1], 2)
-    );
-  }
+  num get length => Math.sqrt(squaredLength);
+  
+  num get squaredLength => Math.pow(this[0], 2) + Math.pow(this[1], 2);
   
   void reset() {
     this[0] = 0;

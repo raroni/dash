@@ -3,10 +3,11 @@ part of dash;
 class CollisionDetection extends EntityObserverProcessor {
   List<Entity> staticCircleEntities = new List<Entity>();
   List<Entity> dynamicCircleEntities = new List<Entity>();
+  List<Entity> dynamicPolygonEntities = new List<Entity>();
   PairCache<Entity> pairCache = new PairCache<Entity>(); 
   
   bool match(Entity entity) {
-    return entity.has(CircleCollider);
+    return entity.has(CircleCollider) || entity.has(PolygonCollider);
   }
   
   void onEntityObserverProcessorInitialized() {
@@ -17,19 +18,32 @@ class CollisionDetection extends EntityObserverProcessor {
     for(var entity1 in dynamicCircleEntities) {
       for(var entity2 in dynamicCircleEntities) {
         if(entity1 != entity2 && !pairCache.contains(entity1, entity2)) {
-          testCircleCollision(entity1, entity2);
+          testCircles(entity1, entity2);
           pairCache.add(entity1, entity2);
         }
       }
+      for(var entity2 in dynamicPolygonEntities) {
+        testCirclePolygon(entity1, entity2);
+      }
       
       for(var entity2 in staticCircleEntities) {
-        testCircleCollision(entity1, entity2);
+        testCircles(entity1, entity2);
+      }
+    }
+    pairCache.clear();
+    
+    for(var entity1 in dynamicPolygonEntities) {
+      for(var entity2 in dynamicPolygonEntities) {
+        if(entity1 != entity2 && !pairCache.contains(entity1, entity2)) {
+          testPolygons(entity1, entity2);
+          pairCache.add(entity1, entity2);
+        }
       }
     }
     pairCache.clear();
   }
   
-  void testCircleCollision(Entity entity1, Entity entity2) {
+  void testCircles(Entity entity1, Entity entity2) {
     var position1 = entity1.getComponent(Position);
     var position2 = entity2.getComponent(Position);
     var centerDif = position1.vector - position2.vector;
@@ -45,11 +59,40 @@ class CollisionDetection extends EntityObserverProcessor {
     }
   }
   
+  void testPolygons(Entity entity1, Entity entity2) {
+    // not implemented yet
+  }
+  
+  void testCirclePolygon(Entity circleEntity, Entity polygonEntity) {
+    var circlePosition = circleEntity.getComponent(Position);
+    var polygonPosition = polygonEntity.getComponent(Position);
+    
+    var circlePositionRelativeToPolygon = circlePosition.vector - polygonPosition.vector;
+    
+    var polygonCollider = polygonEntity.getComponent(PolygonCollider);
+    var closestPointOnPolygon = polygonCollider.polygon.getClosestPoint(circlePositionRelativeToPolygon);
+    
+    var difference = circlePositionRelativeToPolygon-closestPointOnPolygon;
+    var distance = difference.length;
+    
+    var circleCollider = circleEntity.getComponent(CircleCollider);
+    if(distance < circleCollider.radius) {
+      difference.normalize();
+      var separation = difference * (circleCollider.radius-distance);
+      eventManager.emit(new Collision(circleEntity, polygonEntity, separation));
+    }
+  }
+  
   void onAddition(Entity entity) {
-    if(entity.has(Velocity)) {
-      dynamicCircleEntities.add(entity);
+    if(entity.has(PolygonCollider)) {
+      if(!entity.has(Velocity)) throw new StateError("We don't support static polygon collider.");
+      dynamicPolygonEntities.add(entity);
     } else {
-      staticCircleEntities.add(entity);
+      if(entity.has(Velocity)) {
+        dynamicCircleEntities.add(entity);
+      } else {
+        staticCircleEntities.add(entity);
+      } 
     }
   }
   
