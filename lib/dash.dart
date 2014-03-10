@@ -39,3 +39,5 @@ part 'src/geometry/polygon.dart';
 part 'src/geometry/line_segment.dart';
 part 'src/geometry/point2d.dart';
 part 'src/physics/polygon_collider.dart';
+part 'src/geometry/polygon/polygon_line_collection.dart';
+part 'src/geometry/polygon/polygon_line_collection_iterator.dart';
