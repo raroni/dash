@@ -39,6 +39,9 @@ class CollisionDetection extends EntityObserverProcessor {
           pairCache.add(entity1, entity2);
         }
       }
+      for(var entity2 in staticCircleEntities) {
+        testCirclePolygon(entity2, entity1);
+      }
     }
     pairCache.clear();
   }
