@@ -3,9 +3,11 @@ part of dash;
 class Polygon {
   List<Point2D> vertices = new List<Point2D>();
   PolygonLineCollection lines;
+  PolygonAxisCollection axes;
   
   Polygon() {
     lines = new PolygonLineCollection(vertices);
+    axes = new PolygonAxisCollection(vertices);
   }
   
   Point2D getClosestPoint(Point2D target) {

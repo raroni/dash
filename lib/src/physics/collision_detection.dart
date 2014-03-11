@@ -63,7 +63,14 @@ class CollisionDetection extends EntityObserverProcessor {
   }
   
   void testPolygons(Entity entity1, Entity entity2) {
-    // not implemented yet
+    var collider1 = entity1.getComponent(PolygonCollider);
+    var collider2 = entity2.getComponent(PolygonCollider);
+    var colliders = [collider1, collider2];
+    for(var collider in colliders) {
+      for(var axis in collider.polygon.axes) {
+        // axis should work now
+      }
+    }
   }
   
   void testCirclePolygon(Entity circleEntity, Entity polygonEntity) {
