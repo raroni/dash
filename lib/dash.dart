@@ -1,7 +1,6 @@
 library dash;
 
 import 'dart:html' as HTML;
-import 'dart:async' as Async;
 import 'dart:mirrors' as Mirrors;
 import 'dart:math' as Math;
 import 'dart:collection' as Collection;
@@ -43,3 +42,4 @@ part 'src/geometry/polygon/polygon_line_collection.dart';
 part 'src/geometry/polygon/polygon_line_collection_iterator.dart';
 part 'src/geometry/polygon/polygon_axis_collection.dart';
 part 'src/geometry/polygon/polygon_axis_collection_iterator.dart';
+part 'src/events/event_subscription.dart';

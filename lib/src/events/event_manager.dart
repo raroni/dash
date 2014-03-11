@@ -1,34 +1,27 @@
 part of dash;
 
-class StreamPair {
-  Async.StreamController controller;
-  Async.Stream stream;
-  
-  StreamPair() {
-    controller = new Async.StreamController.broadcast(sync: true); 
-    stream = controller.stream;
-  }
-}
-
 class EventManager { 
-  Map<Type, StreamPair> pairs = new Map<Type, StreamPair>();
+  Map<Type, List<Function>> callbacks = new Map<Type, List<Function>>();
   
   void emit(Event event) {
-    var pair = getPair(event.runtimeType);
-    pair.controller.add(event);
-  }
-  
-  StreamPair getPair(Type type) {
-    StreamPair pair;
-    pair = pairs[type];
-    if(pair== null) {
-      pair = new StreamPair();
-      pairs[type] = pair;
+    var list = getList(event.runtimeType);
+    for(var callback in list) {
+      callback(event);
     }
-    return pair;
   }
   
-  Async.Stream getStream(Type type) {
-    return getPair(type).stream;
+  List<Function> getList(Type type) {
+    var list = callbacks[type];
+    if(list == null) {
+      list = new List<Function>();
+      callbacks[type] = list;
+    }
+    return list;
+  }
+  
+  EventSubscription subscribe(Type type, Function function) {
+    getList(type).add(function);
+    var subscription = new EventSubscription(this, type, function);
+    return subscription;
   }
 }

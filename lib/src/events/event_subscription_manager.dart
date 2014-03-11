@@ -3,12 +3,12 @@ part of dash;
 class EventSubscriptionManager {
   EventManager eventManager;
   
-  List<Async.StreamSubscription> subscriptions = new List<Async.StreamSubscription>();
+  List<EventSubscription> subscriptions = new List<EventSubscription>();
   
   EventSubscriptionManager(EventManager this.eventManager);
   
   void add(Type type, Function function) {
-    var subscription = eventManager.getStream(type).listen(function);
+    var subscription = eventManager.subscribe(type, function);
     subscriptions.add(subscription);
   }
   
