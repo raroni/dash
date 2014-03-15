@@ -46,4 +46,10 @@ class Polygon {
     }
     return clone;
   }
+  
+  void translate(Vector2 vector) {
+    for(var vertex in vertices) {
+      vertex.add(vector);
+    }
+  }
 }

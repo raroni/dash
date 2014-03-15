@@ -63,14 +63,58 @@ class CollisionDetection extends EntityObserverProcessor {
   }
   
   void testPolygons(Entity entity1, Entity entity2) {
+    var separation1 = findSmallestPolygonSeparation(entity1, entity2);
+    if(separation1 == null) return;
+    var separation2 = findSmallestPolygonSeparation(entity2, entity1);
+    if(separation2 == null) return;
+    var separation;
+    
+    if(separation1.squaredLength < separation2.squaredLength) {
+      separation = separation1;
+    } else {
+      separation = separation2;
+    }
+    
+    var position1 = entity1.getComponent(Position);
+    var position2 = entity2.getComponent(Position);
+    
+    var centerDif = position1.vector - position2.vector;
+    if(separation.getDotProduct(centerDif) < 0) {
+      separation.negate();
+    }
+    
+    eventManager.emit(new Collision(entity1, entity2, separation));
+  }
+  
+  Vector2 findSmallestPolygonSeparation(Entity entity1, Entity entity2) {
+    var smallestOverlap, smallestOverlapAxis;
+    
     var collider1 = entity1.getComponent(PolygonCollider);
     var collider2 = entity2.getComponent(PolygonCollider);
-    var colliders = [collider1, collider2];
-    for(var collider in colliders) {
-      for(var axis in collider.polygon.axes) {
-        // axis should work now
+    
+    var polygon1 = collider1.polygon;
+    var polygon2 = collider2.polygon.createClone();
+    var position1 = entity1.getComponent(Position);
+    var position2 = entity2.getComponent(Position);
+    polygon2.translate(position2.vector - position1.vector);
+    
+    for(var normal in collider1.polygon.normals) {
+      var projection1 = polygon1.project(normal);
+      var projection2 = polygon2.project(normal);
+      
+      if(!projection1.overlaps(projection2)) {
+        return null;
+      } else {
+        var overlap = projection1.getOverlap(projection2);
+        if(smallestOverlap == null || overlap < smallestOverlap) {
+          smallestOverlap = overlap;
+          smallestOverlapAxis = normal;
+        }
       }
     }
+    
+    var separation = smallestOverlapAxis * smallestOverlap;
+    return separation;
   }
   
   void testCirclePolygon(Entity circleEntity, Entity polygonEntity) {

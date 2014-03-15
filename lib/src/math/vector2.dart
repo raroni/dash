@@ -14,6 +14,11 @@ class Vector2 extends Vector {
     normalize();
   }
   
+  void negate() {
+    this[0] *= -1;
+    this[1] *= -1;
+  }
+  
   String toString() {
     return "${this[0]}, ${this[1]}";
   }
