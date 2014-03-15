@@ -1,11 +1,11 @@
 part of dash;
 
-class PolygonAxisCollection extends Collection.IterableBase {
+class PolygonNormalCollection extends Collection.IterableBase {
   List<Point2D> vertices;
   
-  PolygonAxisCollection(List<Point2D> this.vertices);
+  PolygonNormalCollection(List<Point2D> this.vertices);
   
-  Iterator get iterator => new PolygonAxisCollectionIterator(this);
+  Iterator get iterator => new PolygonNormalCollectionIterator(this);
   
   Vector2 operator[](int index) {
     var start = this.vertices[index];
