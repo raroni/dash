@@ -1,4 +1,5 @@
 name: dash
 description: A sample application
 dev_dependencies:
+  browser: any
   unittest: any

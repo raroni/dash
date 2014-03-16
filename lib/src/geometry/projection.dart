@@ -6,16 +6,20 @@ class Projection {
   
   Projection(num this.min, num this.max);
   
-  bool overlaps(Projection projection) {
-    if(max <= projection.min) return false;
-    if(min >= projection.max) return false;
-    return true;
+  bool overlap(Projection projection) {
+    return projection.max >= min && projection.min <= max;
   }
-
-  num getOverlap(projection) {
-    var min = Math.max(this.min, projection.min);
-    var max = Math.min(this.max, projection.max);
-    return max-min;
+  
+  num getOverlap(Projection projection) {
+    if(projection.max > max) {
+      return max-projection.min;
+    } else {
+      return min-projection.max;
+    }
+  }
+  
+  bool include(Projection projection) {
+    return min <= projection.min && max >= projection.max;
   }
   
   String toString() {

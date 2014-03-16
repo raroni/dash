@@ -67,27 +67,19 @@ class CollisionDetection extends EntityObserverProcessor {
     if(separation1 == null) return;
     var separation2 = findSmallestPolygonSeparation(entity2, entity1);
     if(separation2 == null) return;
-    var separation;
     
+    var separation;
     if(separation1.squaredLength < separation2.squaredLength) {
-      separation = separation1;
+      separation = separation1*-1;
     } else {
       separation = separation2;
-    }
-    
-    var position1 = entity1.getComponent(Position);
-    var position2 = entity2.getComponent(Position);
-    
-    var centerDif = position1.vector - position2.vector;
-    if(separation.getDotProduct(centerDif) < 0) {
-      separation.negate();
     }
     
     eventManager.emit(new Collision(entity1, entity2, separation));
   }
   
   Vector2 findSmallestPolygonSeparation(Entity entity1, Entity entity2) {
-    var smallestOverlap, smallestOverlapAxis;
+    var smallestSeparationDistance, smallestSeparationDirection;
     
     var collider1 = entity1.getComponent(PolygonCollider);
     var collider2 = entity2.getComponent(PolygonCollider);
@@ -102,18 +94,19 @@ class CollisionDetection extends EntityObserverProcessor {
       var projection1 = polygon1.project(normal);
       var projection2 = polygon2.project(normal);
       
-      if(!projection1.overlaps(projection2)) {
-        return null;
+      if(projection1.include(projection2)) {
+        // Not implemented yet.
       } else {
+        if(!projection1.overlap(projection2)) return null;
         var overlap = projection1.getOverlap(projection2);
-        if(smallestOverlap == null || overlap < smallestOverlap) {
-          smallestOverlap = overlap;
-          smallestOverlapAxis = normal;
+        if(smallestSeparationDistance == null || smallestSeparationDistance.abs() > overlap.abs()) {
+          smallestSeparationDistance = overlap;
+          smallestSeparationDirection = normal;
         }
       }
     }
     
-    var separation = smallestOverlapAxis * smallestOverlap;
+    var separation = smallestSeparationDirection * smallestSeparationDistance;
     return separation;
   }
   
