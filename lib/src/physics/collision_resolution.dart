@@ -14,14 +14,28 @@ class CollisionResolution extends Processor {
   
   void receiveUpdate(Update update) {
     for(var collision in pendingCollisions) {
-      var halfSeparation = collision.separation*0.501;
+      var entity1Static = !collision.entity1.has(Velocity);
+      var entity2Static = !collision.entity2.has(Velocity);
       
-      var position1 = collision.entity1.getComponent(Position);
-      position1.vector.add(halfSeparation);
+      var baseChange = collision.separation*1.01;
       
-      var position2 = collision.entity2.getComponent(Position);
-      position2.vector.subtract(halfSeparation);
+      if(entity1Static) {
+        move(collision.entity2, baseChange * -1);
+      }
+      else if(entity2Static) {
+        move(collision.entity1, baseChange);
+      } else {
+        var halfSeparation = baseChange*0.5;
+        move(collision.entity1, halfSeparation);
+        move(collision.entity2, halfSeparation * -1);
+      }
     }
+    
     pendingCollisions.clear();
+  }
+  
+  void move(Entity entity, Vector2 change) {
+    var position = entity.getComponent(Position);
+    position.vector.add(change);
   }
 }
