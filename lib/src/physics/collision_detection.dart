@@ -3,8 +3,9 @@ part of dash;
 class CollisionDetection extends EntityObserverProcessor {
   List<Entity> staticCircleEntities = new List<Entity>();
   List<Entity> dynamicCircleEntities = new List<Entity>();
+  List<Entity> staticPolygonEntities = new List<Entity>();
   List<Entity> dynamicPolygonEntities = new List<Entity>();
-  PairCache<Entity> pairCache = new PairCache<Entity>(); 
+  PairCache<Entity> pairCache = new PairCache<Entity>();
   
   bool match(Entity entity) {
     return entity.has(CircleCollider) || entity.has(PolygonCollider);
@@ -22,12 +23,14 @@ class CollisionDetection extends EntityObserverProcessor {
           pairCache.add(entity1, entity2);
         }
       }
+      for(var entity2 in staticCircleEntities) {
+        testCircles(entity1, entity2);
+      }
       for(var entity2 in dynamicPolygonEntities) {
         testCirclePolygon(entity1, entity2);
       }
-      
-      for(var entity2 in staticCircleEntities) {
-        testCircles(entity1, entity2);
+      for(var entity2 in staticPolygonEntities) {
+        testCirclePolygon(entity1, entity2);
       }
     }
     pairCache.clear();
@@ -38,6 +41,9 @@ class CollisionDetection extends EntityObserverProcessor {
           testPolygons(entity1, entity2);
           pairCache.add(entity1, entity2);
         }
+      }
+      for(var entity2 in staticPolygonEntities) {
+        testPolygons(entity1, entity2);
       }
       for(var entity2 in staticCircleEntities) {
         testCirclePolygon(entity2, entity1);
@@ -132,8 +138,11 @@ class CollisionDetection extends EntityObserverProcessor {
   
   void onAddition(Entity entity) {
     if(entity.has(PolygonCollider)) {
-      if(!entity.has(Velocity)) throw new StateError("We don't support static polygon collider.");
-      dynamicPolygonEntities.add(entity);
+      if(entity.has(Velocity)) {
+        dynamicPolygonEntities.add(entity);
+      } else {
+        staticPolygonEntities.add(entity);
+      }
     } else {
       if(entity.has(Velocity)) {
         dynamicCircleEntities.add(entity);
