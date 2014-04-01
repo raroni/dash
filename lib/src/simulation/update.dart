@@ -1,7 +1,8 @@
 part of dash;
 
 class Update extends Event {
-  double timeDelta;
+  double simulationDuration;
+  double frameDuration;
   
-  Update(this.timeDelta);
+  Update(double this.simulationDuration, double this.frameDuration);
 }

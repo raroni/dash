@@ -4,6 +4,7 @@ class Simulation {
   List<Processor> processors = new List<Processor>();
   EventManager eventManager = new EventManager();
   Database database;
+  num timeProgressed = 0;
   
   Simulation() {
     database = new Database(eventManager);
@@ -22,7 +23,8 @@ class Simulation {
   
   void progress(double timeDelta) {
     database.update();
-    eventManager.emit(new Update(timeDelta));
+    timeProgressed += timeDelta;
+    eventManager.emit(new Update(timeProgressed, timeDelta));
   }
   
   Entity createEntity() {
