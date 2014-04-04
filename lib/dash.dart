@@ -45,3 +45,4 @@ part 'src/geometry/polygon/polygon_normal_collection_iterator.dart';
 part 'src/events/event_subscription.dart';
 part 'src/geometry/projection.dart';
 part 'src/resolution.dart';
+part 'src/orientation.dart';
