@@ -1,10 +1,16 @@
 part of dash;
 
 class Vector2 extends Vector {
-  Vector2([num x = 0, num y = 0]) {
+  Vector2(num x, num y) {
     components = new List<num>(2);
     components[0] = x;
     components[1] = y;
+  }
+  
+  Vector2.zero() {
+    components = new List<num>(2);
+    components[0] = 0;
+    components[1] = 0;
   }
   
   Vector2.normalized(Vector2 vector) {
@@ -64,7 +70,7 @@ class Vector2 extends Vector {
   }
 
   Vector2 createClone() {
-    var clone = new Vector2();
+    var clone = new Vector2.zero();
     clone.set(this);
     return clone;
   }
