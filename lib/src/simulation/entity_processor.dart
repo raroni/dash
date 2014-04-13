@@ -10,7 +10,7 @@ abstract class EntityProcessor extends EntityObserverProcessor {
   
   void receiveUpdate(Update update) {
     for(var entity in entities) {
-      updateEntity(entity);
+      updateEntity(entity, update);
     }
   }
   
@@ -23,5 +23,5 @@ abstract class EntityProcessor extends EntityObserverProcessor {
   }
   
   bool match(Entity entity);
-  void updateEntity(Entity entity);
+  void updateEntity(Entity entity, Update update);
 }
