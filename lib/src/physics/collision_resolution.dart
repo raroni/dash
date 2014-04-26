@@ -37,5 +37,13 @@ class CollisionResolution extends Processor {
   void move(Entity entity, Vector2 change) {
     var position = entity.getComponent(Position);
     position.vector.add(change);
+    var velocityAspect = entity.getComponent(Velocity);
+    if(change[0].abs() > change[1].abs()) {
+      velocityAspect.vector[0] = 0;
+      velocityAspect.vector[1] *= 0.8;
+    } else {
+      velocityAspect.vector[1] = 0;
+      velocityAspect.vector[0] *= 0.8;
+    }
   }
 }
