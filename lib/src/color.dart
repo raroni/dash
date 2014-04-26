@@ -8,7 +8,12 @@ class Color extends Vector4 {
     this[3] = transparency;
   }
   
-  Color.black();
+  Color.black() {
+    this[0] = 0;
+    this[1] = 0;
+    this[2] = 0;
+    this[3] = 1;
+  }
   
   num get red => components[0];
   num get green => components[1];
