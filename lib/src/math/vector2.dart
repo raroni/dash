@@ -46,18 +46,18 @@ class Vector2 extends Vector {
   }
   
   operator*(num factor) {
-    return new Vector2(
-      this[0] *= factor,
-      this[1] *= factor
-    );
+    var clone = createClone();
+    clone.multiply(factor);
+    return clone;
   }
   
   operator/(num divident) {
-    return new Vector2(
-      this[0] /= divident,
-      this[1] /= divident
-    );
+    var clone = createClone();
+    clone.divide(divident);
+    return clone;
   }
+  
+  
   
   void add(Vector2 vector) {
     this[0] += vector[0];
@@ -76,7 +76,13 @@ class Vector2 extends Vector {
   }
   
   void multiply(num factor) {
-    set(this*factor);
+    this[0] *= factor;
+    this[1] *= factor;
+  }
+  
+  void divide(num divident) {
+    this[0] /= divident;
+    this[1] /= divident;
   }
   
   num get length => Math.sqrt(squaredLength);
