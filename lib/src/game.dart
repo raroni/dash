@@ -10,7 +10,9 @@ abstract class Game {
   void tick(double time) {
     double timeDelta = time-lastTickTime;
     lastTickTime = time;
-    update(timeDelta);
+    if(timeDelta < 80) {
+      update(timeDelta);
+    }
     scheduleNextFrame();
   }
   
