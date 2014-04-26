@@ -6,5 +6,5 @@ class Resolution {
   
   num get aspectRatio => width/height;
   
-  Resolution(int width, int height);
+  Resolution(int this.width, int this.height);
 }
