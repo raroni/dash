@@ -4,11 +4,11 @@ class Database {
   List<Entity> entities = new List<Entity>();
   List<Entity> additions = new List<Entity>();
   List<Entity> pendingDestructions = new List<Entity>();
-  ClassIDMap componentTypeIDs = new ClassIDMap();
+  ClassIDMap aspectTypeIDs = new ClassIDMap();
   EventManager eventManager;
   int nextUnusedID = 0;
   List<int> freedIDs = new List<int>();
-  List<List<Component>> componentLists = new List<List<Component>>();
+  List<List<Aspect>> aspectLists = new List<List<Aspect>>();
   Database(EventManager this.eventManager);
   
   Entity createEntity() {
@@ -28,8 +28,8 @@ class Database {
   }
   
   void reallocate() {
-    for(var componentList in componentLists) {
-      componentList.length = getSize();
+    for(var aspectList in aspectLists) {
+      aspectList.length = getSize();
     }
   }
   
@@ -37,41 +37,41 @@ class Database {
     pendingDestructions.add(entity);
   }
   
-  bool hasComponent(int entityID, Type type) {
-    var list = getComponentList(type);
+  bool hasAspect(int entityID, Type type) {
+    var list = getAspectList(type);
     return list[entityID] != null;
   }
   
-  Component createComponent(int entityID, Type type) {
-    if(hasComponent(entityID, type)) throw new StateError("Entity already has this component.");
+  Aspect createAspect(int entityID, Type type) {
+    if(hasAspect(entityID, type)) throw new StateError("Entity already has this aspect.");
     var reflection = Mirrors.reflectClass(type);
-    Component component = reflection.newInstance(new Symbol(''), []).reflectee;
+    Aspect aspect = reflection.newInstance(new Symbol(''), []).reflectee;
     
-    List<Component> list = getComponentList(type);
-    list[entityID] = component;
-    return component;
+    List<Aspect> list = getAspectList(type);
+    list[entityID] = aspect;
+    return aspect;
   }
   
   int getSize() {
     return nextUnusedID;
   }
   
-  List<Component> getComponentList(Type type) {
-    int componentTypeID = componentTypeIDs.get(type);
-    if(componentLists.length <= componentTypeID) {
-      componentLists.length = componentTypeID+1;
+  List<Aspect> getAspectList(Type type) {
+    int aspectTypeID = aspectTypeIDs.get(type);
+    if(aspectLists.length <= aspectTypeID) {
+      aspectLists.length = aspectTypeID+1;
     }
-    List<Component> list = componentLists[componentTypeID];
+    List<Aspect> list = aspectLists[aspectTypeID];
     if(list == null) {
-      list = new List<Component>();
+      list = new List<Aspect>();
       list.length = getSize();
-      componentLists[componentTypeID] = list;
+      aspectLists[aspectTypeID] = list;
     }
     return list;
   }
   
-  Component getComponent(int entityID, Type type) {
-    List<Component> list = getComponentList(type);
+  Aspect getAspect(int entityID, Type type) {
+    List<Aspect> list = getAspectList(type);
     return list[entityID];
   }
   

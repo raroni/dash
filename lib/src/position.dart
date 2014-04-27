@@ -1,6 +1,6 @@
 part of dash;
 
-class Position extends Component {
+class Position extends Aspect {
   Point2D vector = new Point2D.zero();
   
   set x (x) => vector[0] = x;

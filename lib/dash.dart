@@ -9,7 +9,7 @@ part 'src/simulation/entity.dart';
 part 'src/simulation/simulation.dart';
 part 'src/game.dart';
 part 'src/simulation/database.dart';
-part 'src/simulation/component.dart';
+part 'src/simulation/aspect.dart';
 part 'src/events/event_manager.dart';
 part 'src/events/event.dart';
 part 'src/simulation/entity_addition.dart';

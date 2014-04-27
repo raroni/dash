@@ -6,15 +6,15 @@ class Entity {
   
   Entity(this.id, this.database);
   
-  Component createComponent(Type type) {
-    return database.createComponent(this.id, type);
+  Aspect createAspect(Type type) {
+    return database.createAspect(this.id, type);
   }
   
   bool has(Type type) {
-    return database.hasComponent(id, type);
+    return database.hasAspect(id, type);
   }
   
-  Component getComponent(Type type) {
-    return database.getComponent(id, type);
+  AspectgetAspect(Type type) {
+    return database.getAspect(id, type);
   }
 }
