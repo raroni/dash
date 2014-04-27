@@ -26,7 +26,6 @@ part 'src/keyboard/event_registry.dart';
 part 'src/helpers/html_helper.dart';
 part 'src/math/vector.dart';
 part 'src/math/vector2.dart';
-part 'src/pair_cache.dart';
 part 'src/simulation/entity_processor.dart';
 part 'src/geometry/polygon.dart';
 part 'src/geometry/line_segment.dart';
