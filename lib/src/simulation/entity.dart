@@ -14,7 +14,7 @@ class Entity {
     return database.hasAspect(id, type);
   }
   
-  AspectgetAspect(Type type) {
+  Aspect getAspect(Type type) {
     return database.getAspect(id, type);
   }
 }
