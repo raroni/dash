@@ -8,6 +8,6 @@ class EventSubscription {
   EventSubscription(EventManager this.manager, Type this.type, Function this.function);
   
   void cancel() {
-    throw new StateError('Not impl.');
+    manager.unsubscribe(type, function);
   }
 }

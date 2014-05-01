@@ -24,4 +24,8 @@ class EventManager {
     var subscription = new EventSubscription(this, type, function);
     return subscription;
   }
+  
+  void unsubscribe(Type type, Function function) {
+    getList(type).remove(function);
+  }
 }
