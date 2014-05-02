@@ -45,8 +45,8 @@ class Keyboard {
   
   void onKeyDown(HTML.KeyboardEvent event) {
     var keyName = keyMap[event.keyCode];
-    eventRegistry.registerKeyDown(keyName);
     if(keyName != null) {
+      if(keysPressed[keyName] == null) eventRegistry.registerKeyDown(keyName);
       keysPressed[keyName] = true;
     }
   }
@@ -58,6 +58,7 @@ class Keyboard {
   void onKeyUp(HTML.KeyboardEvent event) {
     var keyName = keyMap[event.keyCode];
     if(keyName != null) {
+      eventRegistry.registerKeyUp(keyName);
       keysPressed.remove(keyName);
     }
   }
