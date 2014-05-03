@@ -17,4 +17,8 @@ class Entity {
   Aspect getAspect(Type type) {
     return database.getAspect(id, type);
   }
+  
+  void destroy() {
+    database.destroyEntity(this);
+  }
 }

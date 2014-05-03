@@ -33,7 +33,7 @@ class Database {
     }
   }
   
-  void destroyEntity(entity) {
+  void destroyEntity(Entity entity) {
     pendingDestructions.add(entity);
   }
   
