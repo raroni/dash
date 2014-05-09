@@ -28,4 +28,9 @@ class LineSegment {
     Point2D point = start+difference*progress;
     return point;
   }
+  
+  num getSquaredDistanceToPoint(Point2D target) {
+    var closestPoint = getClosestPoint(target);
+    return closestPoint.getSquaredDistance(target); 
+  }
 }
