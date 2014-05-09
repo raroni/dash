@@ -14,6 +14,7 @@ part 'src/events/event_manager.dart';
 part 'src/events/event.dart';
 part 'src/simulation/entity_addition.dart';
 part 'src/simulation/entity_destruction.dart';
+part 'src/simulation/entity_change.dart';
 part 'src/simulation/processor.dart';
 part 'src/simulation/entity_observer_processor.dart';
 part 'src/events/event_subscription_manager.dart';

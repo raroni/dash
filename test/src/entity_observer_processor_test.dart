@@ -1,12 +1,25 @@
-library html_helper_test;
+library entity_observer_processor_test;
 
 import 'package:unittest/unittest.dart';
 import 'package:dash/dash.dart';
+import '../mocks.dart';
 
 main() {
-  test(".formatsAsRGBA", () {
-    var color = new Color(0.5, 0.5, 1, 0.25);
-    var result = HTMLHelper.formatAsRGBA(color);
-    expect(result, equals("rgba(128, 128, 255, 0.25)"));
+  test("aspect change", () {
+    var eventManager = new EventManager();
+    var database = new Database(eventManager);
+    
+    var processor = new EntityObserverProcessorMock<AspectMock2>();
+    processor.eventManager = eventManager;
+    processor.initialize();
+    
+    var entity = database.createEntity();
+    entity.createAspect(AspectMock1);
+    database.update();
+    expect(processor.entities, []);
+    
+    entity.createAspect(AspectMock2);
+    database.update();
+    expect(processor.entities, [entity]);
   });
 }

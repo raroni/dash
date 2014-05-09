@@ -4,6 +4,7 @@ class Database {
   List<Entity> entities = new List<Entity>();
   List<Entity> additions = new List<Entity>();
   List<Entity> pendingDestructions = new List<Entity>();
+  Set<int> changes = new Set<int>(); 
   ClassIDMap aspectTypeIDs = new ClassIDMap();
   EventManager eventManager;
   int nextUnusedID = 0;
@@ -44,6 +45,8 @@ class Database {
   
   Aspect createAspect(int entityID, Type type) {
     if(hasAspect(entityID, type)) throw new StateError("Entity already has this aspect.");
+    changes.add(entityID);
+    
     var reflection = Mirrors.reflectClass(type);
     Aspect aspect = reflection.newInstance(new Symbol(''), []).reflectee;
     
@@ -78,12 +81,19 @@ class Database {
   void update() {
     for(var entity in additions) {
       eventManager.emit(new EntityAddition(entity));
+      changes.remove(entity.id);
     }
     additions.clear();
     
     for(var entity in pendingDestructions) {
       eventManager.emit(new EntityDestruction(entity));
+      changes.remove(entity.id);
     }
     pendingDestructions.clear();
+    
+    for(var entityIDs in changes) {
+      eventManager.emit(new EntityChange(entities[entityIDs]));
+    }
+    changes.clear();
   }
 }
