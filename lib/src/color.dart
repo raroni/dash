@@ -15,6 +15,13 @@ class Color extends Vector4 {
     this[3] = 1;
   }
   
+  Color.white() {
+    this[0] = 1;
+    this[1] = 1;
+    this[2] = 1;
+    this[3] = 1;
+  }
+  
   num get red => components[0];
   num get green => components[1];
   num get blue => components[2];
