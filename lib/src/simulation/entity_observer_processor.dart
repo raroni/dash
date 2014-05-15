@@ -47,7 +47,7 @@ abstract class EntityObserverProcessor extends Processor {
   }
   
   bool match(Entity entity);
-  void onAddition(Entity entity);
-  void onRemoval(Entity entity);
+  void onAddition(Entity entity) { }
+  void onRemoval(Entity entity) { }
   void onEntityObserverProcessorInitialized() { }
 }
