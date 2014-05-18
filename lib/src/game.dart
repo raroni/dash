@@ -2,6 +2,10 @@ part of dash;
 
 abstract class Game {
   double lastTickTime = 0.0;
+  HTML.Element container;
+  RenderingSetup renderingSetup;
+  
+  Game(HTML.Element this.container);
   
   void run() {
     tick(0.0);
@@ -20,7 +24,14 @@ abstract class Game {
     HTML.window.animationFrame.then(tick);
   }
   
-  void initialize() { }
+  void initialize() {
+    renderingSetup = new RenderingSetup();
+    container.nodes.add(renderingSetup.canvas);
+    
+    onInitialized();
+  }
+  
+  void onInitialized();
   
   void update(num timeDelta);
 }
